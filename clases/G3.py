@@ -11,6 +11,32 @@ class G3(Consulta):
         self.json_api = None
         self.json_grupo_original = None
         self.json_grupo_adaptado = None
+        self.json_api_mayus = None
+        self.json_api_tilde = None
+        self.json_api_mayus_tilde = None
+        self.filtros_busqueda = []
+        self.completo = True
+        if nombre == "G3.11":
+            self._puntos = 4
+        else:
+            self._puntos = 2
+
+    def puntos(self):
+        if self.respuesta:
+            if self.completo:
+                return self._puntos
+            else:
+                return self._puntos / 2
+        return 0
+
+    def mensaje(self):
+        if not self.atributos:
+            self._mensaje = "Faltan atributos por mostrar"
+        if self.respuesta:
+            return f"{self.nombre}: {self.respuesta} {self._mensaje}{self.filtros_busqueda}"
+        else:
+            return f"{self.nombre}: {self.respuesta} {self._mensaje}"#"
+
 
     def escribir(self, nombre_archivo="G3.py"):
         if Consulta.guarda:
@@ -22,10 +48,16 @@ class G3(Consulta):
 "{self.nombre}": {'{'}
     "busqueda": {self.busqueda},
     "respuesta": {self.respuesta},
+    "acepta_no_incluir_parametros": {self.completo},
+    "puntos": {self.puntos()},
     "todos_los_atributos": {self.atributos},
     "atributos_encontrados": {self.atributos_encontrados},
     "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["mid"])) for i in self.json_grupo_adaptado if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
     "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["mid"])) for i in self.json_api if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_mayusculas": {self.json_api_mayus if self.json_api_mayus in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_tildes": {self.json_api_tilde if self.json_api_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_tilde if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_mayus_tildes": {self.json_api_mayus_tilde if self.json_api_mayus_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus_tilde if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+
 
     "json_grupo_original": {self.json_grupo_original},
 
@@ -41,6 +73,11 @@ class G3(Consulta):
 
             resultado = self._correr()
             self.respuesta = resultado
+            if not self.respuesta:
+                resultado = self._correr(de_nuevo=True)
+                if resultado:
+                    self.respuesta = resultado
+                    self.completo = False
             self.done = True#jiib.strip()
             sys.stdout.write(f"\r¡Listo! {self.nombre}: {resultado} [{', '.join([i for i in self.busqueda]) if self.busqueda else self.busqueda}]   ")
             print()
@@ -57,18 +94,25 @@ class G3(Consulta):
         return resultado
 
 
-    def _correr(self):
+    def _correr(self, de_nuevo=False):
+        try:
+            if de_nuevo:
+                for i in ["desired", "forbidden", "required"]:
+                    if i not in self.busqueda:
+                        self.busqueda[i] = []
+        except:
+            return False
         try:
             #https://stackoverflow.com/questions/22029562/python-how-to-make-simple-animated-loading-while-process-is-runningd
-
             if self.busqueda == None or self.busqueda == {}:
                 consulta = f"{self.ruta}"
                 if self.busqueda is None:
                     uno = Consulta.requests_get(self.api + consulta, timeout=10)
                 else:
                     uno = Consulta.requests_get(self.api + consulta, json=self.busqueda, timeout=10)
+
                 respuesta_api = Consulta.encontrar(uno.json())
-                self.json_api = respuesta_api
+
                 if self.busqueda is None:
                     dos = Consulta.requests_get(self.grupo + consulta, timeout=10)
                 else:
@@ -99,9 +143,19 @@ class G3(Consulta):
             else:
                 consulta = f"{self.ruta}"
                 uno = Consulta.requests_get(self.api + consulta, json=self.busqueda)
+                tres_mayus = Consulta.requests_get(self.api + consulta + "-2/True/False", json=self.busqueda, timeout=10)
+                tres_tilde = Consulta.requests_get(self.api + consulta + "-2/False/True", json=self.busqueda, timeout=10)
+                tres_mayus_tilde = Consulta.requests_get(self.api + consulta + "-2/True/True", json=self.busqueda, timeout=10)
                 respuesta_api = Consulta.encontrar(uno.json())
                 self.json_api = respuesta_api
                 dos = Consulta.requests_get(self.grupo + consulta, json=self.busqueda)
+                respuesta_api_mayus = Consulta.encontrar(tres_mayus.json())
+                respuesta_api_tilde = Consulta.encontrar(tres_tilde.json())
+                respuesta_api_mayus_tilde = Consulta.encontrar(tres_mayus_tilde.json())
+                self.json_api = respuesta_api
+                self.json_api_mayus = respuesta_api_mayus
+                self.json_api_tilde = respuesta_api_tilde
+                self.json_api_mayus_tilde = respuesta_api_mayus_tilde
                 self.json_grupo_original = dos.json()
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
@@ -113,6 +167,9 @@ class G3(Consulta):
                     return False
                 else:
                     ids_encontrados = set([int(i["mid"]) for i in respuesta_api])
+                    ids_encontrados_mayus = set([int(i["mid"]) for i in respuesta_api_mayus] if respuesta_api_mayus not in [None, False] else [])
+                    ids_encontrados_tilde = set([int(i["mid"]) for i in respuesta_api_tilde] if respuesta_api_tilde not in [None, False] else [])
+                    ids_encontrados_mayus_tilde = set([int(i["mid"]) for i in respuesta_api_mayus_tilde ] if respuesta_api_mayus_tilde not in [None, False] else [])
                     self.todos_atributos(respuesta_grupo)
                     ids = set()
                     for elemento in respuesta_grupo:
@@ -124,17 +181,30 @@ class G3(Consulta):
                                     return False
                                 else:
                                     ids.add(mid)
-                    largo = len((ids_encontrados - ids).intersection(Consulta.ids))
+                    largo = len((ids_encontrados - ids).union(ids - ids_encontrados).intersection(Consulta.ids))
+                    largo_mayus = len((ids_encontrados_mayus - ids).union(ids - ids_encontrados_mayus).intersection(Consulta.ids))
+                    largo_tilde = len((ids_encontrados_tilde - ids).union(ids - ids_encontrados_tilde).intersection(Consulta.ids))
+                    largo_mayus_tilde = len((ids_encontrados_mayus_tilde - ids).union(ids - ids_encontrados_mayus_tilde).intersection(Consulta.ids))
                     #print(largo)
-                    if largo >= 1:
+                    if largo >= 1 and largo_mayus >= 1 and largo_tilde >= 1 and largo_mayus_tilde >= 1:
                         return False #if i in
+                    lista = []
+                    if largo == 0:
+                        lista.append("regular")
+                    if largo_mayus == 0:
+                        lista.append("case_sensitive")
+                    if largo_mayus_tilde == 0:
+                        lista.append("case_and_diacritic_sensitive")
+                    if largo_tilde == 0:
+                        lista.append("diacritic_sensitive")
+                    self.filtros_busqueda = lista
                     return True#tYu#tRUE#FalsetRUE
         except requests.exceptions.ReadTimeout:
             self.done = True
             sys.stdout.write(f"\r¿Listo? {self.nombre}")
             print()
             print("    " + "_"*48)
-            print("    Al parecer algo sucede con las consultas que ")
+            print("    Al parecer algo sucede Con las consultas que ")
             print("    entregan todos los mensajes                  ")
             print("    A continuación se dan distintas opciones     ")
             print("    para resolver, resolverlo ahora o más tarde: ")

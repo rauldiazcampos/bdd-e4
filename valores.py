@@ -12,4 +12,4 @@ sub_folder = "informes"
 
 # Archivo en donde se guardará el informe
 # %numero indica el número de grupo
-group_file = "grupo%numero.txt"
+group_file = "grupo%numero"

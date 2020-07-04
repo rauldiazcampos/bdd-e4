@@ -66,5 +66,6 @@ if None in obtenidos:
             archivo = valores.group_file.replace("%numero", str(numero_grupo))
 
 import lista_consultas
+lista_consultas.listo(archivo)
 # r = requests.get('https://iic2413-2020-1-api.herokuapp.com/text-search', json={"desired": "P NP"})
 # print(r.json())

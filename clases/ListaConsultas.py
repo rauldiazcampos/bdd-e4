@@ -307,12 +307,12 @@ class ListaConsultas:
 
         self.resumir(ahora)
 
-    def resumir(self, ahora=None, nombre_archivo="comentarios.py"):
+    def resumir(self, ahora=None, nombre_archivo="comentarios.txt"):
         if ahora is None:
             ahora = datetime.now()
         if Consulta.guarda:
             nombre_archivo = Consulta.nombre_archivo + "/" + nombre_archivo
-        with open(f"{nombre_archivo.replace('.py', ' ' + ahora.strftime('%d-%m-%y %H-%M-%S') + '.py')}", "w") as archivo:#")#gh
+        with open(f"{nombre_archivo.replace('.py', '.txt')}", "w") as archivo:#")#gh
             for i in [self.g0, self.g1, self.g2, self.g3, self.d1, self.p1]:
                 for j in i:
                     archivo.write(j.mensaje() + "\n")
