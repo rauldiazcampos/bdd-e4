@@ -1,3 +1,7 @@
+# Bases de Datos - Entrega 4 🎉
+
+¡Hola! A continuación unas pequeñas cosas sobre el script realizado para esta entrega :D
+
 ## Estructura del repositorio
 
 ```bash
