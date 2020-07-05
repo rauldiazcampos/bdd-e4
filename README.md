@@ -70,7 +70,7 @@ python main.py
       ```
 
       
-¡Eso! Pueden preguntarme cualquier cosa c:
+¡Eso! Pueden preguntarme si quieren cualquier cosa c:
 ¡Mucho éxito y ánimo con lo que queda de semestreeeee!
 😊🍀🎉😄🌱🎊🌳
 
