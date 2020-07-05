@@ -338,6 +338,18 @@ class ListaConsultas:
                         numero = str(j.puntos()).replace(".", ",")
                     puntos.append(numero)
             # print(puntos)
-            archivo.write("\nPuntos en Planilla:")
-            archivo.write('\n' + "	".join(puntos))
+            archivo.write('''\nPuntos en Planilla (se puede copiar y pegar la fila :D):
+|__G0__|_____G1_____|____G2____|____________________G3____________________|___P1___|___D1___|
+|_1_|_2|__1_|_2_|_3_|_1_|_2_|_3|__1_|_2_|_3_|_4_|_5_|_6_|_7_|_8_|_9_|10|11|___1_|_2|__1_|_2_|''')
+            archivo.write('\n  ' + " 	".join(puntos))
             # 1	2	31	234
+            
+            '''
+archivo.write(' ' '\nPuntos en Planilla (se puede copiar y pegar la fila :D):
+____________________________________________________________________________________________
+|__G0__|_____G1_____|____G2____|____________________G3____________________|___P1___|___D1___|
+|_1_|_2|__1_|_2_|_3_|_1_|_2_|_3|__1_|_2_|_3_|_4_|_5_|_6_|_7_|_8_|_9_|10|11|___1_|_2|__1_|_2_|
+  ' ' ')
+            archivo.write('\n  ' + " 	".join(puntos))
+            # 1	2 31 234
+'''
