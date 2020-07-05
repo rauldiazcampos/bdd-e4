@@ -34,13 +34,18 @@ class Consulta:
         self.json_grupo_original = None
         self._mensaje = ""
 
+    def puntos(self):
+        if self.respuesta:
+            return self._puntos
+        return 0
+
     def mensaje(self):
         if not self.atributos:
             self._mensaje = "Faltan atributos por mostrar"
         if self.respuesta:
-            return f"{self.nombre}: {self.respuesta} {self._mensaje}"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos] {self._mensaje}"
         else:
-            return f"{self.nombre}: {self.respuesta} {self._mensaje}"#"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos] {self._mensaje}"#"
 
     def encontrar(respuesta, llaves=None, filtro=4):
         primero = False
@@ -271,9 +276,9 @@ class Consulta:
             if entrada == "0":
                 return Consulta.ids
             lista = []
-            for i in range(1, 221):
+            for i in range(1, 240):
                 try:
-                    sys.stdout.write(f"\r [{'*'*int(i*50/220)}{' '*(50-int((i)*50/220))}] ({i}/220)")
+                    sys.stdout.write(f"\r [{'*'*int(i*50/239)}{' '*(50-int((i)*50/220))}] ({i}/239)")
                     sys.stdout.flush()
                     recibido = Consulta.requests_get(self.grupo + "/messages/" + str(i))
                     recibido = Consulta.encontrar(recibido.json())

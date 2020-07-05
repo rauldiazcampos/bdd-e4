@@ -89,7 +89,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'G0 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -101,7 +101,7 @@ class ListaConsultas:
                 ''')
             for i in self.g0:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -126,7 +126,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'G1 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -138,7 +138,7 @@ class ListaConsultas:
                 ''')
             for i in self.g1:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -150,7 +150,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'G2 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -162,7 +162,7 @@ class ListaConsultas:
                 ''')
             for i in self.g2:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -200,7 +200,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'G3 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -212,7 +212,7 @@ class ListaConsultas:
                 ''')
             for i in self.g3:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -235,7 +235,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'P1 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -247,7 +247,7 @@ class ListaConsultas:
                 ''')
             for i in self.p1:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -261,8 +261,21 @@ class ListaConsultas:
             self.d1.append(consulta)
 
     def correr_d1(self):
-        for i in self.d1:
+        algun_encontrado = False # ytr
+        algun_no_encontrado = False
+        for i in self.d1[:len(self.d1)]: # -1]:
             i.correr()
+        '''
+            if i.esta:
+                algun_encontrado = True
+            elif not i.esta:
+                algun_no_encontrado = True # False
+        if algun_encontrado:
+            self.d1.pop(-1)
+        else:
+            self.d1[-1].correr()
+            self.d1[0] = self.d1.pop(-1) # self.d1[0] = self.d1.pop(-1) # self.d1[0] = self.d1.pop(-1) self.d1[0] = self.d1.pop(-1)
+        '''
 
     def guardar_d1(self, ahora=None, nombre_archivo="D1.py"):
         if Consulta.guarda:
@@ -271,7 +284,7 @@ class ListaConsultas:
                 ahora = datetime.now()
 
             ahora = 'D1 ' + str((ahora).strftime('%d/%m/%y %H:%M:%S'))#()#))
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write(f'''
 {"#"*80}
 {"#"*80}
@@ -283,7 +296,7 @@ class ListaConsultas:
                 ''')
             for i in self.d1:
                 i.escribir(nombre_archivo)
-            with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:
+            with open(nombre_carpeta + f"/{nombre_archivo}", "a", encoding="utf-8") as archivo:
                 archivo.write('''
 }
 ''')
@@ -312,7 +325,19 @@ class ListaConsultas:
             ahora = datetime.now()
         if Consulta.guarda:
             nombre_archivo = Consulta.nombre_archivo + "/" + nombre_archivo
-        with open(f"{nombre_archivo.replace('.py', '.txt')}", "w") as archivo:#")#gh
-            for i in [self.g0, self.g1, self.g2, self.g3, self.d1, self.p1]:
+        with open(f"{nombre_archivo.replace('.py', '.txt')}", "w", encoding="utf-8") as archivo:#")#gh
+            puntos = []
+            for i in [self.g0, self.g1, self.g2, self.g3, self.p1, self.d1]:
                 for j in i:
                     archivo.write(j.mensaje() + "\n")
+                    # puntos.append(j.puntos())
+                    decimales = str(j.puntos())[str(j.puntos()).find("."):]
+                    if len(decimales) - 1 == decimales.count("0"):
+                        numero = str(int(j.puntos()))
+                    else:
+                        numero = str(j.puntos()).replace(".", ",")
+                    puntos.append(numero)
+            # print(puntos)
+            archivo.write("\nPuntos en Planilla:")
+            archivo.write('\n' + "	".join(puntos))
+            # 1	2	31	234

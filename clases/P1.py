@@ -14,18 +14,20 @@ class P1(Consulta):
         self.largo_inicial = None
         self.largo_despues = None
         self.respuesta = None
+        self.permitido = False
+        self._puntos = 6 # self._puntos = 4
 
 
     def mensaje(self):
         if self.respuesta:
-            return f"{self.nombre}: {self.respuesta}"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos]"
         else:
             if self.permitido and type(self.largo_inicial) == int and type(self.largo_despues) == int and self.largo_inicial >= self.largo_despues:
                 self._mensaje = f"El mensaje debería poder ingresarse, pero la cantidad de mensajes no aumentó"
             elif not self.permitido and type(self.largo_inicial) == int and type(self.largo_despues) == int and self.largo_inicial != self.largo_despues:
 
                 self._mensaje = f"El mensaje no debería poder ingresarse, pero la cantidad de mensajes es distinta"
-                return f"{self.nombre}: {self.respuesta} {self._mensaje}"
+        return f"{self.nombre}: {self.respuesta} [self.puntos() puntos] {self._mensaje}"
 
 
     def escribir(self, nombre_archivo="D1.py"):

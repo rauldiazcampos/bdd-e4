@@ -10,6 +10,10 @@ class G2(Consulta):
         self.nombre = nombre
         self.atributos = True
         self.estado = None
+        if id is None:
+            self._puntos = 3
+        else:
+            self._puntos = 2 # self._puntos = 2 #self._puntos = 2
 
     def escribir(self, nombre_archivo="G2.py"):
         if Consulta.guarda:
@@ -106,6 +110,8 @@ class G2(Consulta):
                 self.json_grupo_original = a
                 respuesta_grupo = Consulta.encontrar_2(a)
                 self.json_grupo_adaptado = respuesta_grupo
+                if type(respuesta_grupo) == list:
+                    self.json_grupo_adaptado = [self.json_grupo_adaptado[0]]
                 if not respuesta_api and not respuesta_grupo:
                     return True
                 elif respuesta_api and not respuesta_grupo:

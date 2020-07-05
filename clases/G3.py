@@ -31,11 +31,13 @@ class G3(Consulta):
 
     def mensaje(self):
         if not self.atributos:
-            self._mensaje = "Faltan atributos por mostrar"
+            self._mensaje = "Faltan atributos por mostrar."
+        if not self.completo:
+            self._mensaje += " No se considera el caso de no agregar todos los parámetros. "
         if self.respuesta:
-            return f"{self.nombre}: {self.respuesta} {self._mensaje}{self.filtros_busqueda}"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos] ({self._mensaje}) pruebas_aceptadas = {' - '.join(self.filtros_busqueda)}"
         else:
-            return f"{self.nombre}: {self.respuesta} {self._mensaje}"#"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos] ({self._mensaje})"#"
 
 
     def escribir(self, nombre_archivo="G3.py"):

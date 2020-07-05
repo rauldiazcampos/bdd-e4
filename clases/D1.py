@@ -13,17 +13,18 @@ class D1(Consulta):
         self.ids_iniciales, self.ids_despues = None, None
         self.esta = None
         self._mensaje = ""
+        self._puntos = 3
 
     def mensaje(self):
         if self.respuesta:
-            return f"{self.nombre}: {self.respuesta}"
+            return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos]"
         else:
             if self.esta and type(self.largo_inicial) == int and type(self.largo_despues) == int and self.largo_inicial <= self.largo_despues:
                 self._mensaje = f"El mensaje de id={self.id} está en la lista, pero la cantidad de mensajes no es menor"
             elif not self.esta and type(self.largo_inicial) == int and type(self.largo_despues) == int and self.largo_inicial != self.largo_despues:
 
                 self._mensaje = f"El mensaje de id={self.id} no está en la lista, pero la cantidad de mensajes es distinta"
-                return f"{self.nombre}: {self.respuesta} {self._mensaje}"
+        return f"{self.nombre}: {self.respuesta} [{self.puntos()} puntos] {self._mensaje}"
 
 
     def escribir(self, nombre_archivo="D1.py"):
@@ -34,7 +35,7 @@ class D1(Consulta):
                 string = f'''
 {"#"*((80-len(self.nombre) - 2)//2)} {self.nombre} {"#"*(80 - len(self.nombre) - 2 - ((80-len(self.nombre) - 2)//2))}
 "{self.nombre}": {'{'}
-    "id_mensaje": {self.id}, 
+    "id_mensaje": {self.id},
     "respuesta": {self.respuesta},
     "json_grupo": {self.json_grupo},
     "ids_encontradas_antes": {self.ids_iniciales},
@@ -52,6 +53,10 @@ class D1(Consulta):
             cargando = threading.Thread(target=self.animate)
             cargando.start()
 
+            resultado = self._correr()
+            self.respuesta = resultado
+            if self.respuesta is False:
+                self.ruta = "/message"
             resultado = self._correr()
             self.respuesta = resultado
             self.done = True
@@ -83,15 +88,17 @@ class D1(Consulta):
             else:
                 self.ids_iniciales = self.ids_disponibles()
                 self.largo_inicial = len(self.ids_iniciales)
-                if self.id is None:
+                if self.id is None:''' # """"
                     self.done = True
                     sys.stdout.write("\r... ")#po
                     sys.stdout.flush()
+                    print("La id que fue eliminada al principio no existía, así que otro test para probarla!")
                     print("Las siguientes ids fueron encontradas:")
                     print(" ".join((str(i) for i in sorted(list(self.ids_iniciales)))))
-                    print("A continuación puede elegir una (que esté o no esté en la lista), o puede presionar ENTER para saltarse esta consulta:")
+                    print("A continuación puede elegir una de la lista, o puede presionar ENTER para saltarse esta consulta:")
+                    print("[Importante: Idealmente elegir una id mayor a 220 :D (si la hay) para así no borrar ids que pueden ser respuestas de otras consultas!]")
                     entrada = input(">> ")
-                    while (not entrada.isnumeric()) and entrada != "":
+                    while (not entrada.isnumeric()) and entrada != "" and (((int(entrada) not in self.ids_inciales))):
                         print("No se pudo entender la entrada :O puede intentarlo nuevamente :D")
                         entrada = input(">> ")
                     if entrada == "":
@@ -101,7 +108,8 @@ class D1(Consulta):
                     print(f"mid elegida: {self.id} ({'no ' if not self.id in self.ids_iniciales else ''}está en la lista)")#y})")
                     self.done = False
                     cargando = threading.Thread(target=self.animate)#TT
-                    cargando.start()
+                    cargando.start()'''
+                self.id = sorted(list(self.ids_iniciales))[-1]
                 consulta = f"{self.ruta}/{self.id}"
 
                 se_puede = self.id in self.ids_iniciales

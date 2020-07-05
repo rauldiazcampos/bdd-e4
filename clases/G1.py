@@ -10,6 +10,10 @@ class G1(Consulta):
         self.nombre = nombre
         self.atributos = True
         self.estado = None
+        if id is None:
+            self._puntos = 3
+        else:
+            self._puntos = 2
 
     def escribir(self, nombre_archivo="G1.py"):
         if Consulta.guarda:

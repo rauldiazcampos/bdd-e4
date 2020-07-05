@@ -9,6 +9,7 @@ class G0(Consulta):
         self.id2 = id2
         self.done = False
         self.nombre = nombre
+        self._puntos = 2
 
     def escribir(self, nombre_archivo="G0.py"):
         if Consulta.guarda:
@@ -93,8 +94,8 @@ class G0(Consulta):
                                     return False
                                 else:
                                     ids.add(mid)
-                    largo = len((ids_encontrados - ids).intersection(Consulta.ids))
-                
+                    largo = len((ids_encontrados - ids).union(ids - ids_encontrados).intersection(Consulta.ids))
+
                     if largo >= 1:
                         return False #if i in
                     return True#tYu#tRUE#FalsetRUE
