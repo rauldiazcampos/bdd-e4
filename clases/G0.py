@@ -73,7 +73,7 @@ class G0(Consulta):
                 respuesta_api = Consulta.encontrar(uno.json())
                 self.json_api = respuesta_api
                 dos = Consulta.requests_get(self.grupo + consulta)
-                self.json_grupo_original = dos.json()
+                self.json_grupo_original = Consulta.obtener_json(dos)
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
                 if not respuesta_api and not respuesta_grupo:

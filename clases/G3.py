@@ -119,7 +119,7 @@ class G3(Consulta):
                     dos = Consulta.requests_get(self.grupo + consulta, timeout=10)
                 else:
                     dos = Consulta.requests_get(self.grupo + consulta, json=self.busqueda, timeout=10)
-                self.json_grupo_original = dos.json()
+                self.json_grupo_original = Consulta.obtener_json(dos)
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
                 if not respuesta_api and not respuesta_grupo:
@@ -158,7 +158,7 @@ class G3(Consulta):
                 self.json_api_mayus = respuesta_api_mayus
                 self.json_api_tilde = respuesta_api_tilde
                 self.json_api_mayus_tilde = respuesta_api_mayus_tilde
-                self.json_grupo_original = dos.json()
+                self.json_grupo_original = Consulta.obtener_json(dos)
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
                 if not respuesta_api and not respuesta_grupo:

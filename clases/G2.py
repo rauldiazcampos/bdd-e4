@@ -76,7 +76,7 @@ class G2(Consulta):
                 respuesta_api = Consulta.encontrar_2(uno.json())
                 self.json_api = respuesta_api
                 dos = Consulta.requests_get(self.grupo + self.ruta, timeout=(10, 10))
-                self.json_grupo_original = dos.json()
+                self.json_grupo_original = Consulta.obtener_json(dos)
                 respuesta_grupo = Consulta.encontrar_2(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
                 if not respuesta_api and not respuesta_grupo:
@@ -106,7 +106,7 @@ class G2(Consulta):
                 respuesta_api = Consulta.encontrar_2(a)
                 self.json_api = respuesta_api
                 dos = Consulta.requests_get(self.grupo + consulta)
-                a = dos.json()
+                a = Consulta.obtener_json(dos)
                 self.json_grupo_original = a
                 respuesta_grupo = Consulta.encontrar_2(a)
                 self.json_grupo_adaptado = respuesta_grupo

@@ -98,6 +98,19 @@ class Consulta:
             return Consulta.encontrar(respuesta, None, 2)
         return False
 
+    def obtener_json(response):
+        try:
+            diccionario = response.json()
+            return diccionario
+        except:
+            contenido = str(response.content)
+            if response.status_code in [404, 500]:
+                print(contenido)
+                raise Exception()
+            else:
+                print(contenido)
+                return {"mensaje": contenido}
+
 
     def encontrar_2(respuesta, llaves=None, filtro=2):
         primero = False
