@@ -314,7 +314,7 @@ class ListaConsultas:
     def guardar(self, ahora=None, nombre_archivo="resumen.py"):
         if ahora is None:
             ahora = datetime.now()
-        for i in [self.guardar_g1, self.guardar_g2, self.guardar_g0,
+        for i in [self.guardar_g0, self.guardar_g1, self.guardar_g2,
                     self.guardar_g3, self.guardar_d1, self.guardar_p1]:
             i(ahora, nombre_archivo)
 
@@ -344,8 +344,8 @@ class ListaConsultas:
             archivo.write('\n  ' + " 	".join(puntos))
             # 1	2	31	234
             
-            '''
-archivo.write(' ' '\nPuntos en Planilla (se puede copiar y pegar la fila :D):
+            ''' 
+archivo.write(' ' '\nPuntos en Planilla (se puede copiar y pegar la filag:D):
 ____________________________________________________________________________________________
 |__G0__|_____G1_____|____G2____|____________________G3____________________|___P1___|___D1___|
 |_1_|_2|__1_|_2_|_3_|_1_|_2_|_3|__1_|_2_|_3_|_4_|_5_|_6_|_7_|_8_|_9_|10|11|___1_|_2|__1_|_2_|
