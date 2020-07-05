@@ -2,7 +2,7 @@
 
 ¡Hola! A continuación unas pequeñas cosas sobre el script realizado para esta entrega :D
 
-## Estructura del repositorio
+## Estructura del repositorio 🌱
 
 ```bash
 ├───clases
@@ -30,7 +30,7 @@
 └───valores.py
 ```
 
-## Para correr script
+## Para correr script 🍀
 ```
 python main.py grupoXX
 ```
@@ -44,7 +44,7 @@ python main.py XX
 python main.py
 ```
 
-## Una vez en main.py...
+## Una vez en main.py... 😊
 * Se revisarán los distintos testcases:
   * **G0**: en la ruta `/messages?id1=XX&id2=YY`
   * **G1**: en la ruta `/messages` y `/messages/id`
@@ -53,7 +53,7 @@ python main.py
   * **P1**: en la ruta `/messages` con `POST`
   * **D1**: en la ruta `/message/id` o `/messages/id` con `DELETE`
   
- ## Testcases listos!
+ ## Testcases listos 🌳🌿🌳
  * Se creó (si ya no estaba creada :D) una carpeta con el nombre `grupoXX`, donde `XX` es el número del grupo ingresado al principio.
  * Dentro de esta carpeta habrá una subcarpeta con el formato `dd-mm-aa hh-mm-ss`, que corresponde a la hora del día en donde se abrió el script :D
  * Dentro de esta subcarpeta habrán dos archivos:
