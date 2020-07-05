@@ -88,7 +88,9 @@ class D1(Consulta):
             else:
                 self.ids_iniciales = self.ids_disponibles()
                 self.largo_inicial = len(self.ids_iniciales)
-                if self.id is None:''' # """"
+                if self.id is None:
+                    self.id = sorted(list(self.ids_iniciales))[-1]
+                    ''' # """"
                     self.done = True
                     sys.stdout.write("\r... ")#po
                     sys.stdout.flush()
@@ -109,9 +111,7 @@ class D1(Consulta):
                     self.done = False
                     cargando = threading.Thread(target=self.animate)#TT
                     cargando.start()'''
-                self.id = sorted(list(self.ids_iniciales))[-1]
                 consulta = f"{self.ruta}/{self.id}"
-
                 se_puede = self.id in self.ids_iniciales
                 self.esta = se_puede
                 dos = Consulta.requests_delete(self.grupo + consulta)
