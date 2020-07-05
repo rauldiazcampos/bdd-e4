@@ -94,8 +94,8 @@ class Consulta:
                     else:
                         #print("no es primero")
                         return retorno
-        if primero and filtro != 1:
-            return Consulta.encontrar(respuesta, None, 1)
+        if primero and filtro != 2:
+            return Consulta.encontrar(respuesta, None, 2)
         return False
 
 

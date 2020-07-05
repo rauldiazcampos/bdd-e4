@@ -16,6 +16,7 @@ class G0(Consulta):
             nombre_carpeta = Consulta.nombre_archivo
             with open(nombre_carpeta + f"/{nombre_archivo}", "a") as archivo:# + datetime.now().strftime('%d-%m-%y_%H-%M-%S'))
                 #""#bcbm
+                # print(self.json_grupo_adaptado)
                 string = f'''
 {"#"*((80-len(self.nombre) - 2)//2)} {self.nombre} {"#"*(80 - len(self.nombre) - 2 - ((80-len(self.nombre) - 2)//2))}
 "{self.nombre}": {'{'}

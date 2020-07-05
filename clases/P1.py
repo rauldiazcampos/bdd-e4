@@ -89,7 +89,7 @@ class P1(Consulta):
                 self.largo_inicial = len(self.ids_iniciales)
                 consulta = f"{self.ruta}"
                 uno = Consulta.requests_post(self.api + consulta, json=self.documento)#ge
-                respuesta_api = Consulta.encontrar(uno.json())
+                respuesta_api = Consulta.encontrar(uno.json(), filtro=1)
                 self.json_api = respuesta_api
                 se_puede = respuesta_api[0]["success"]
                 self.permitido = se_puede

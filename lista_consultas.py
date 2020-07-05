@@ -1,7 +1,9 @@
 from clases import *
 from datetime import datetime
 
-#Consulta("/").ids_disponibles()
+_consulta = Consulta("/")
+_consulta.ids_disponibles()
+print(_consulta.ids)
 def listo(archivo):
     consulta = ListaConsultas(0, "/", "https://iic2413-2020-1-api.herokuapp.com", "http://localhost:5000")
     # Consulta.ids = consulta.ids_disponible()
