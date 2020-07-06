@@ -27,8 +27,8 @@ class G2(Consulta):
     "respuesta": {self.respuesta},
     "todos_los_atributos": {self.atributos},
     "atributos_encontrados": {self.atributos_encontrados},
-    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["uid"])) for i in self.json_grupo_adaptado if str(i["uid"]).isnumeric() or str(i["uid"]).replace(".", "").isnumeric()]},
-    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["uid"])) for i in self.json_api if str(i["uid"]).isnumeric() or str(i["uid"]).replace(".", "").isnumeric()]},
+    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["uid"])) for i in self.json_grupo_adaptado if "mid" in i and str(i["uid"]).isnumeric() or "mid" in i and str(i["uid"]).replace(".", "").isnumeric()]},
+    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["uid"])) for i in self.json_api if "mid" in i and str(i["uid"]).isnumeric() or "mid" in i and str(i["uid"]).replace(".", "").isnumeric()]},
 
     "json_grupo_original": {self.json_grupo_original},
 

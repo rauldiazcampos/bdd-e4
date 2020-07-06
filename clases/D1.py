@@ -80,11 +80,8 @@ class D1(Consulta):
     def _correr(self):
         try:
             #https://stackoverflow.com/questions/22029562/python-how-to-make-simple-animated-loading-while-process-is-runningd
-
             if None:
                 pass
-
-
             else:
                 self.ids_iniciales = self.ids_disponibles()
                 self.largo_inicial = len(self.ids_iniciales)
