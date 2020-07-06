@@ -262,7 +262,7 @@ class Consulta:
         try:
             recibido = Consulta.requests_get(self.grupo + "/messages", timeout=10)
             recibido = Consulta.encontrar(recibido.json())
-            lista = [int(i["mid"]) if str(i).isnumeric() else (int(float(str(i["mid"])))) for i in recibido if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]
+            lista = [int(i["mid"]) if str(i).isnumeric() else (int(float("mid" in i and str(i["mid"])))) for i in recibido if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]
             Consulta.ids = set(lista)
         except requests.exceptions.ReadTimeout:
             print("Al parecer /messages está teniendo problemas par obtener todos los mensajes")

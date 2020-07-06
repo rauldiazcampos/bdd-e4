@@ -27,7 +27,7 @@ class G3(Consulta):
                 return self._puntos
             else:
                 return self._puntos / 2
-        return 0
+        return 0 # "mid" in i and str(i["mid"]
 
     def mensaje(self):
         if not self.atributos:
@@ -54,11 +54,11 @@ class G3(Consulta):
     "puntos": {self.puntos()},
     "todos_los_atributos": {self.atributos},
     "atributos_encontrados": {self.atributos_encontrados},
-    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["mid"])) for i in self.json_grupo_adaptado if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
-    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["mid"])) for i in self.json_api if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
-    "json_api_mayusculas": {self.json_api_mayus if self.json_api_mayus in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
-    "json_api_tildes": {self.json_api_tilde if self.json_api_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_tilde if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
-    "json_api_mayus_tildes": {self.json_api_mayus_tilde if self.json_api_mayus_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus_tilde if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["mid"])) for i in self.json_grupo_adaptado if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["mid"])) for i in self.json_api if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_mayusculas": {self.json_api_mayus if self.json_api_mayus in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_tildes": {self.json_api_tilde if self.json_api_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_tilde if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api_mayus_tildes": {self.json_api_mayus_tilde if self.json_api_mayus_tilde in [None, False] else [int(float(i["mid"])) for i in self.json_api_mayus_tilde if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
 
 
     "json_grupo_original": {self.json_grupo_original},
@@ -133,8 +133,9 @@ class G3(Consulta):
                     largo = len(respuesta_grupo)
                     contador = 0
                     for i in range(len(respuesta_grupo)):
-                        if str(respuesta_grupo[i]["mid"]).replace(".", "").isnumeric() and 1 <= int(str(respuesta_grupo[i]["mid"]).replace(".", "")) <= 220:
-                            contador += 1
+                        if "mid" in respuesta_grupo[i]:
+                            if str(respuesta_grupo[i]["mid"]).replace(".", "").isnumeric() and 1 <= int(str(respuesta_grupo[i]["mid"]).replace(".", "")) <= 220:
+                                contador += 1
                     if contador >= 100:
                         return True
                     if largo >= 2:
@@ -151,6 +152,7 @@ class G3(Consulta):
                 respuesta_api = Consulta.encontrar(uno.json())
                 self.json_api = respuesta_api
                 dos = Consulta.requests_get(self.grupo + consulta, json=self.busqueda)
+                # print("grupo", self.grupo + consulta, "grupo")
                 respuesta_api_mayus = Consulta.encontrar(tres_mayus.json())
                 respuesta_api_tilde = Consulta.encontrar(tres_tilde.json())
                 respuesta_api_mayus_tilde = Consulta.encontrar(tres_mayus_tilde.json())
@@ -158,7 +160,13 @@ class G3(Consulta):
                 self.json_api_mayus = respuesta_api_mayus
                 self.json_api_tilde = respuesta_api_tilde
                 self.json_api_mayus_tilde = respuesta_api_mayus_tilde
+                '''
+                print(self.busqueda)
+                print(dos.status_code)
+                '''
+                print()
                 self.json_grupo_original = dos.json()
+
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
                 if not respuesta_api and not respuesta_grupo:

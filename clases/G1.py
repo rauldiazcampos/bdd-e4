@@ -27,8 +27,8 @@ class G1(Consulta):
     "respuesta": {self.respuesta},
     "todos_los_atributos": {self.atributos},
     "atributos_encontrados": {self.atributos_encontrados},
-    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["mid"])) for i in self.json_grupo_adaptado if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
-    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["mid"])) for i in self.json_api if str(i["mid"]).isnumeric() or str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_grupo_adaptado": {self.json_grupo_adaptado if self.json_grupo_adaptado in [None, False] else [int(float(i["mid"])) for i in self.json_grupo_adaptado if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
+    "json_api": {self.json_api if self.json_api in [None, False] else [int(float(i["mid"])) for i in self.json_api if "mid" in i and str(i["mid"]).isnumeric() or "mid" in i and str(i["mid"]).replace(".", "").isnumeric()]},
 
     "json_grupo_original": {self.json_grupo_original},
 
@@ -78,19 +78,27 @@ class G1(Consulta):
                 self.json_grupo_original = dos.json()
                 respuesta_grupo = Consulta.encontrar(self.json_grupo_original)
                 self.json_grupo_adaptado = respuesta_grupo
+                # print(1)
                 if not respuesta_api and not respuesta_grupo:
+                    # print(2)
                     return True
                 elif respuesta_api and not respuesta_grupo:
+                    # print(3)
                     return False
                 elif not respuesta_api and respuesta_grupo:
+                    # print(4)
                     return False
                 else:
+                    # print(5)
                     self.todos_atributos(respuesta_grupo)
                     largo = len(respuesta_grupo)
                     contador = 0
+                    print(6)
                     for i in range(len(respuesta_grupo)):
-                        if str(respuesta_grupo[i]["mid"]).replace(".", "").isnumeric() and 1 <= int(str(respuesta_grupo[i]["mid"]).replace(".", "")) <= 220:
-                            contador += 1
+                        if "mid" in respuesta_grupo[i]:
+                            if str(respuesta_grupo[i]["mid"]).replace(".", "").isnumeric() and 1 <= int(str(respuesta_grupo[i]["mid"]).replace(".", "")) <= 220:
+                                contador += 1
+                    # print(7, contador, largo)
                     if contador >= 100:
                         return True
                     if largo >= 2:
