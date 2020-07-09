@@ -2,6 +2,9 @@
 
 ¡Hola! A continuación unas pequeñas cosas sobre el script realizado para esta entrega :D
 
+## Importante:
+Antes de probar este script, es importante abrir su api :D el predeterminado es que quede en localhost:5000, ¡pero pueden cambiarlo!
+
 ## Estructura del repositorio 🌱
 
 ```bash
